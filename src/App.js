@@ -1,9 +1,12 @@
+import { useState } from "react";
 import FlashcardList from "./FlashcardList";
+import "./app.css"
 
 function App() {
+  const [flashcards, setFlashcards] = useState(DATA_API)
   return (
     <>
-    <FlashcardList flashcards={DATA_API} />
+    <FlashcardList flashcards={flashcards} />
     </>
   );
 }

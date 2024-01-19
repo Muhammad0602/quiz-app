@@ -1,0 +1,57 @@
+body {
+    background-color: #C8D0D2;
+}
+
+.card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-radius: 0.25rem;
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .3);
+    background-color: white;
+    transform-style: preserve-3d;
+    height: 250px;
+    width: 250px;
+    transition: 150ms;
+    transform: perspective(1000px) rotateY(var(--rotate-y, 0)) translateY(var(--translate-y, 0));
+    cursor: pointer;
+}
+
+.card:hover {
+    --translate-y: -2px;
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+}
+
+.card.flip {
+    --rotate-y: 180deg;
+}
+
+.card .front {
+    left: 0;
+}
+
+.card .front,
+.card .back {
+    position: absolute;
+    padding: 1rem;
+    backface-visibility: hidden;
+}
+
+.card .back {
+    transform: rotateY(180deg);
+}
+
+.card-options {
+    margin-top: 0.5rem;
+}
+
+.card-option {
+    margin-top: 0.25rem;
+    color: #555;
+    font-size: 0.75rem;
+}
+
+.card-options:first-child {
+    margin-top: 0;
+}
