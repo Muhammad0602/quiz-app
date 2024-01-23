@@ -1,41 +1,39 @@
-import { useState } from "react";
+import { createElement, useEffect, useState } from "react";
 import FlashcardList from "./FlashcardList";
 import "./app.css"
+import axios from "axios";
 
 function App() {
-  const [flashcards, setFlashcards] = useState(DATA_API)
+  const [flashcards, setFlashcards] = useState([])
+
+  useEffect(() => {
+    axios.get("https://opentdb.com/api.php?amount=10")
+    .then(res => {
+      setFlashcards(res.data.results.map((questionItem, index) => {
+        const answer = decodeStr(questionItem.correct_answer);
+        const options = [...questionItem.incorrect_answers.map(a => decodeStr(a)), answer]
+        return {
+          id: `${index}-${Date.now()}`,
+          question: decodeStr(questionItem.question),
+          answer: answer,
+          options: options.sort(() => Math.random() - .5)
+        }
+      }))
+    })
+  }, [])
+
   return (
     <>
     <FlashcardList flashcards={flashcards} />
     </>
   );
+
+  function decodeStr(str) {
+    const textArea = document.createElement('textarea');
+    textArea.innerHTML = str;
+    return textArea.value;
+  }
 }
 
-const DATA_API = [
-  {
-    id: 1,
-    question: "What is 3 + 3", 
-    options: [
-      "4",
-      "5",
-      "7",
-      "6"
-    ],
-    answer: "6"
-  },
-
-  {
-    id: 2,
-    question: "What is 4 + 6", 
-    options: [
-      "24",
-      "35",
-      "10",
-      "63"
-    ],
-    answer: "10"
-  },
-  
-]
 
 export default App;
